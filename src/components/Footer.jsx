@@ -1,7 +1,7 @@
 export function Footer() {
     return(
         <footer>
-            <p></p>
+            <p>By: Matthew and Gabby</p>
         </footer>
     )
 }
