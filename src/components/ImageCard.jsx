@@ -1,7 +1,8 @@
-export default function ImageCard(props) {
+export default function ImageCard({data}) {
+  let url = data.sprites.front_default
   return (
-    <>
-      {props.content ? <img src={props.url}/> : null}
-    </>
+    <section className="image-card-section">
+      <img src={url}/>
+    </section>
   );
 }

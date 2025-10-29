@@ -4,40 +4,40 @@ import ImageCard from "./ImageCard"
 
 export default function Item() {
   const [data, setData] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [clicked, setClicked] = React.useState(false); 
   
-
   function fetchData() {
-    const num = Math.floor(Math.random() * 1326)+1;
+    setData(null)
+    setError(null)
+    setClicked(true)
+    
+    const num = Math.floor(Math.random() * 1100) +1;
+    console.log(num)
+    
     fetch(`https://pokeapi.co/api/v2/pokemon/${num}`)
-      .then((r) => r.json())
-      .then((json) => setData(json));
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((error) => setError(error));
   }
-  console.log(data)
   
-  let content = false
-  let url =""
-  let name = ""
-  let types = ""
-  if (data != null) {
-   content = true;
-   url = data.sprites.front_default
-   name = data.name
-   types = data.types
-  
-  }
-
- 
-
   return (
     <main>
-      <ImageCard 
-        content = {content}
-        url = {url}/>
-      <DataCard
-        name = {name.toUpperCase()}
-        types={types}
-       />
-      <button onClick={fetchData}>Get a Random Pokémon</button>
+      <div className="pokemon-card">
+        {error?
+          <p>Something went wrong, please try again.</p> : null} 
+        {data? 
+          <section>
+            <DataCard 
+              data = {data}
+            />
+            <ImageCard
+              data ={data}
+            /> 
+          </section>: (
+            clicked && !error ? <p>loading...</p>: null)}
+      </div>
+      <button onClick={fetchData}>Catch a Random Pokémon</button>
     </main>
   );
 }
